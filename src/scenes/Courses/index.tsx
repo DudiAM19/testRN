@@ -1,40 +1,91 @@
-import React, {FC, useState} from 'react';
-import {View, Text, SafeAreaView, Button} from 'react-native';
+import React, {FC} from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import styles from './styles';
+import Ionicicons from 'react-native-vector-icons/Ionicons';
+import {DATA_CATEGORY, DATA_CONTENT} from '../../data';
 
-export type Props = {
-  name: string;
-  baseEnthusiastLevel: number;
+const CategoryItem: FC = props => {
+  return (
+    <TouchableOpacity style={styles.categorysection}>
+      <Text style={styles.textcategory}>{props.category}</Text>
+    </TouchableOpacity>
+  );
 };
 
-const Courses: FC<Props> = ({baseEnthusiastLevel = 0}) => {
-  const [enthusiastLevel, seEnthusiastLevel] = useState(baseEnthusiastLevel);
+const ContentItem: FC = props => {
+  return (
+    <TouchableOpacity style={styles.containercontent} onPress={props.onPress}>
+      <View style={styles.imgsection(props.bgcolor)}>
+        <Image source={props.img} style={styles.img} />
+        <TouchableOpacity style={styles.btnprice}>
+          <Text style={styles.textbtn}>$ {props.price}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.descsection}>
+        <Text style={styles.texttime}>{props.time}</Text>
+        <Text style={styles.texttitle}>{props.title}</Text>
+        <Text style={styles.textdesc}>{props.desc}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
-  const onIncrement = () => seEnthusiastLevel(enthusiastLevel + 1);
-
-  const onDecrement = () => seEnthusiastLevel(enthusiastLevel - 1);
-
+const Courses: FC = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{fontSize: 50}}>Courses</Text>
-      <Text style={{fontFamily: 'Rubik-Black'}}>
-        Hello
-        {enthusiastLevel}
-      </Text>
-      <View>
-        <Button
-          title="Increase enthusiasm"
-          accessibilityLabel="increment"
-          onPress={onIncrement}
-          color="blue"
-        />
-        <Button
-          title="Decrease enthusiasm"
-          accessibilityLabel="decrement"
-          onPress={onDecrement}
-          color="red"
+      <View style={styles.header}>
+        <View style={styles.left}>
+          <Text style={styles.texthello}>Hello,</Text>
+          <Text style={styles.textname}>Juana Antonieta</Text>
+        </View>
+        <View style={styles.iconsection}>
+          <Ionicicons name="notifications-outline" style={styles.iconheader} />
+        </View>
+      </View>
+      <View style={styles.inputsection}>
+        <TextInput placeholder="Search course" style={styles.input} />
+        <Ionicicons name="search-outline" style={styles.iconinput} />
+      </View>
+      <View style={styles.searchcategory}>
+        <Text style={styles.textcategorytitle}>Category :</Text>
+        <FlatList
+          data={DATA_CATEGORY}
+          horizontal={true}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => <CategoryItem category={item.category} />}
         />
       </View>
+      <FlatList
+        data={DATA_CONTENT}
+        keyExtractor={(item, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => (
+          <ContentItem
+            img={item.img}
+            price={item.price}
+            time={item.time}
+            title={item.name}
+            desc={item.desc}
+            bgcolor={item.bgcolor}
+            onPress={() =>
+              navigation.navigate('DetailCourses', {
+                img: item.img,
+                price: item.price,
+                bgcolor: item.bgcolor,
+                intro: item.intro,
+              })
+            }
+          />
+        )}
+      />
     </SafeAreaView>
   );
 };

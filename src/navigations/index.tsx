@@ -5,10 +5,11 @@ import App from './app';
 
 const RootStack = createNativeStackNavigator();
 const RootStackScreen = () => {
+  const {Navigator, Screen} = RootStack;
   return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
-      <RootStack.Screen name="app" component={App} />
-    </RootStack.Navigator>
+    <Navigator screenOptions={{headerShown: false}}>
+      <Screen name="app" component={App} />
+    </Navigator>
   );
 };
 

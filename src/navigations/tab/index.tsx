@@ -13,8 +13,9 @@ const {width} = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
 const TabStackScreen = () => {
+  const {Navigator, Screen} = Tab;
   return (
-    <Tab.Navigator
+    <Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
           if (route.name === 'Courses') {
@@ -47,17 +48,16 @@ const TabStackScreen = () => {
         headerShown: false,
         tabBarStyle: {
           height: width * 0.15,
-          borderTopEndRadius: width * 0.08,
-          borderTopStartRadius: width * 0.08,
         },
         tabBarLabelStyle: {
           marginBottom: width * 0.01,
+          fontFamily: 'Rubik-Regular',
         },
       })}>
-      <Tab.Screen name="Courses" component={Courses} />
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Settings" component={Settings} />
-    </Tab.Navigator>
+      <Screen name="Courses" component={Courses} />
+      <Screen name="Profile" component={Profile} />
+      <Screen name="Settings" component={Settings} />
+    </Navigator>
   );
 };
 

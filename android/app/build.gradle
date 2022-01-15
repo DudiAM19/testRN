@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
+apply plugin: 'applovin-quality-service'
 
 import com.android.build.OutputFile
+
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -130,6 +132,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    applovin {apiKey"E0_mwdzMbgPCG3e7R8ctslEJ8Ec8LEsGtDtlVOPwTlEJzObLTxLdLe7Lp3K70_-593M8GDBKGK_87eAECRnks"}
     defaultConfig {
         applicationId "com.testreactnative"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -192,9 +195,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
